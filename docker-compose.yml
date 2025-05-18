@@ -5,10 +5,14 @@ version: "3"
 services:
   rtsp_webcam:
     container_name: rtsp_webcam
-    image: bluenviron/mediamtx:latest-rpi
+    image: bluenviron/mediamtx:latest-ffmpeg
     #network: host
     ports:
       - 8554:8554
+      #second camera replace 8554:8554
+      #- 8555:8554
+
+
       #- 8000:8000
       #- 8001:8001
       #- 1935:1935
@@ -19,7 +23,10 @@ services:
     volumes:
       - /run/udev:/run/udev:ro
       - ./mediamtx.yml:/mediamtx.yml
-    env_file: .env
+      - /dev/video0:/dev/video0
+      - /dev/video1:/dev/video1
+      - /dev/media4:/dev/media4
+    # env_file: .env
     tmpfs:
       - /dev/shm:exec
     restart: unless-stopped
